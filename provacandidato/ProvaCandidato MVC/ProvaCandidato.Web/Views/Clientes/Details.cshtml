@@ -1,0 +1,106 @@
+﻿@model ProvaCandidato.Data.Entidade.Cliente
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Detalhes";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <h4>Cliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cidade.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataNascimento)
+        </dt>
+
+        <dd>
+            @{ var data = Model.DataNascimento.ToString("dd/MM/yyyy");}
+            @Html.DisplayFor(model => data)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+    </dl>
+</div>
+<button type="button" onclick="openModal()">Visualizar Observações</button>
+<div id="partial-obs">
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Codigo }) |
+    @Html.ActionLink("Voltar para a lista", "Index")
+</p>
+
+<script>
+    function openModal() {
+        @{
+            JsonSerializerSettings converter = new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(Model.Observacoes, converter); 
+        }
+        var observacoes =  @Html.Raw(json);
+
+        $("#partial-obs").dialog({
+            autoOpen: true,
+            position: { my: "center", at: "top+350", of: window },
+            width: 1000,
+            resizable: false,
+            title: 'Observações',
+            modal: true,
+            open: openingModal(observacoes),
+            buttons: {
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        return false;
+    }
+
+    function openingModal(valor) {
+        var observacoes = JSON.stringify({ 'observacoes': valor });
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RenderObs", "Clientes")",
+            data: observacoes,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: renderPartial,
+            error: erro
+        });
+    }
+
+    function renderPartial(render) {
+    }
+
+    function erro(codigodeerro) {
+        $("#partial-obs").html(codigodeerro.responseText);
+    }
+
+</script>

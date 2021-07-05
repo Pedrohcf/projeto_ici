@@ -1,0 +1,99 @@
+﻿body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+  white-space: normal;
+}
+
+
+.title {
+  background: url(/Assets/Images/logo.gif) no-repeat 0 0;
+  height: 58px;
+  padding: 10px 0 0 70px;
+}
+
+#conteudo {
+  padding: 10px;
+}
+
+.linha {
+  background: #04589C;
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px;
+}
+
+.navbar {
+  background: #04589C;
+  color: #fff;
+}
+
+.navbar-inverse {
+  border-color: #04589C;
+}
+
+  .navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+  }
+
+    .navbar-inverse .navbar-nav > li > a:hover {
+      background: #fff;
+      color: #04589C;
+    }
+
+.toast-card {
+    display: flex;
+    width: 300px;
+    height: 100px;
+    box-shadow: 0 0 0px 0px #fff;
+    background: #ffffff00;
+    color: #ffffff00;
+    justify-content: space-around;
+    align-content: center;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    transition: all 2s;
+    transform: translateX(-8%) translateY(20%);
+    right: 0%;
+    top: 85%;
+}
+
+.show-toast {
+    animation-delay: 0s;
+    animation-duration: 2s;
+    animation-iteration-count: 2;
+    animation-name: myfirst;
+    animation-direction: alternate;
+}
+
+/* @keyframes duration | timing-function | delay |
+iteration-count | direction | fill-mode | play-state | name */
+@keyframes myfirst {
+    0% {
+        box-shadow: 0 0 0px 0px #fff;
+        background: #ffffff00;
+        color: #ffffff00;
+    }
+    50% {
+        box-shadow: 0 0 10px 4px #00000069;
+        background: #ddffdd;
+        color: black;
+    }
+    100% {
+        box-shadow: 0 0 10px 4px #00000069;
+        background: #ddffdd;
+        color: black;
+    }
+}

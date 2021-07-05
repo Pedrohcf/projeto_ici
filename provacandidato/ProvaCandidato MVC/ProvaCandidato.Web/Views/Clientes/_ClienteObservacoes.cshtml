@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ProvaCandidato.Data.Entidade.ClienteObservacao>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacao)
+        </th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacao)
+                </td>
+            </tr>
+        }
+    }
+</table>
+<span>Observação:</span>
+<input id="obs-input" />
+<button onclick="adicionarObs()">Adicionar Observação</button>
+<script>
+    function adicionarObs() {
+        var cliente =  @Html.Raw(TempData["Cliente"]);
+        debugger;
+        var model = {
+            Observacao: document.querySelector("#obs-input").value,
+            Cliente: cliente
+        };
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CreateObs", "Clientes")",
+            data: model,
+            dataType: "json",
+            success: sucesso,
+            error: erro
+        });
+    }
+
+    function sucesso(response) {
+        ;
+    }
+
+    function erro(response) {
+        ;
+    }
+</script>

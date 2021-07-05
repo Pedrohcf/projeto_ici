@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ProvaCandidato.Data.Entidade.Cliente>
+
+@{
+    ViewBag.Title = "Lista de clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function filterList(filtro) {
+        var tabela, linhas;
+
+        filtro = filtro.value.toUpperCase();
+        tabela = document.querySelector("#listaClientes");
+        linhas = tabela.getElementsByTagName("tr");
+        for (var i = 0; i < linhas.length; i++) {
+            disableLinha(linhas[i], filtro);
+        }
+    }
+
+    function disableLinha(item, filtro) {
+        var nome = item.querySelector("#nomeCliente");
+        if (nome != null) {
+            if (nome.outerText.toUpperCase().includes(filtro) || filtro == "")
+                nome.parentElement.hidden = false;
+            else
+                nome.parentElement.hidden = true;
+        }
+    }
+</script>
+<h2>Listagem de clientes</h2>
+
+<p>
+    @Html.ActionLink("Criar", "Create")
+</p>
+<input oninput="filterList(this)" placeholder="Filtrar por nome" />
+<table class="table" id="listaClientes">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataNascimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td id="nomeCliente">
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cidade.Nome)
+        </td>
+        <td>
+            @{ var data = item.DataNascimento.ToString("dd/MM/yyyy");}
+            @Html.DisplayFor(modelItem => data)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ativo)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.Codigo }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.Codigo }) |
+            @Html.ActionLink("Deletar", "Delete", new { id=item.Codigo })
+        </td>
+    </tr>
+}
+
+</table>
